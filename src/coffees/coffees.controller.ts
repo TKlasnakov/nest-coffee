@@ -8,32 +8,35 @@ import {
     Delete,
     Query,
 } from '@nestjs/common';
+import { CoffeesService } from './coffees.service';
+import { Coffee } from './entity/coffee.entity';
 
 @Controller('coffees')
 export class CoffeesController {
+    constructor(private readonly coffeesService: CoffeesService) {}
 
     @Get()
     findAll(@Query() params) {
-        return  Object.keys(params).length ? params : 'All Coffees';
+        return this.coffeesService.findAll();
     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return `Coffee ${id}`;
+        return this.coffeesService.findOne(Number(id));
     }
 
     @Post()
-    create(@Body() createCoffeeDto) {
-        return `Coffee ${createCoffeeDto.name} created`;
+    create(@Body() createCoffeeDto: Coffee) {
+        return this.coffeesService.create(createCoffeeDto);
     }
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateCoffeeDto) {
-        return `Coffee ${id} updated`;
+        return this.coffeesService.update(Number(id), updateCoffeeDto);
     }
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return `Coffee ${id} removed`;
+        return this.coffeesService.delete(Number(id));
     }
 }
