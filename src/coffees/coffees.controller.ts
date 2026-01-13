@@ -4,9 +4,8 @@ import {
   Param,
   Post,
   Body,
-  Patch,
   Delete,
-  Query,
+  Patch
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 import { Coffee } from './entity/coffee.entity';
