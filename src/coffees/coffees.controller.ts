@@ -8,7 +8,8 @@ import {
   Patch
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
-import { Coffee } from './entity/coffee.entity';
+import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -25,12 +26,12 @@ export class CoffeesController {
   }
 
   @Post()
-  create(@Body() createCoffeeDto: Coffee) {
+  create(@Body() createCoffeeDto: CreateCoffeeDto) {
     return this.coffeesService.create(createCoffeeDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCoffeeDto) {
+  update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
     return this.coffeesService.update(Number(id), updateCoffeeDto);
   }
 
