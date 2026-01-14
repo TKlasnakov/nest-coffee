@@ -14,9 +14,7 @@ export class CoffeesService {
 
   findAll(): Promise<Coffee[]> {
     return this.coffeeRepository.find({
-      relations: {
-        flavors: true,
-      },
+      relations: { flavors: true },
     });
   }
 
