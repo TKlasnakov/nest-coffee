@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
+import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
@@ -9,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     CoffeesModule,
     ConfigModule.forRoot(),
+    CoffeeRatingModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DATABASE_HOST,

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Query } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from './entity/coffee.entity';
 import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
@@ -15,7 +15,7 @@ export class CoffeesService {
     private readonly coffeeRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
-    private readonly dataSource: DataSource
+    private readonly dataSource: DataSource,
   ) {}
 
   findAll(paginationQuery: PaginationQueryDto): Promise<Coffee[]> {
@@ -42,7 +42,9 @@ export class CoffeesService {
   }
 
   async create(createCoffeeDto: CreateCoffeeDto): Promise<Coffee> {
-    const flavors = await Promise.all(createCoffeeDto.flavors.map(name => this.preloadFlavorByName(name)))
+    const flavors = await Promise.all(
+      createCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
+    );
     const newCoffee = this.coffeeRepository.create({
       ...createCoffeeDto,
       flavors,
@@ -52,7 +54,11 @@ export class CoffeesService {
   }
 
   async update(id: number, updateCoffeeDto: UpdateCoffeeDto): Promise<Coffee> {
-    const flavors = updateCoffeeDto.flavors && await Promise.all(updateCoffeeDto.flavors.map(name => this.preloadFlavorByName(name)));
+    const flavors =
+      updateCoffeeDto.flavors &&
+      (await Promise.all(
+        updateCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
+      ));
     const coffee = await this.coffeeRepository.preload({
       id,
       ...updateCoffeeDto,
@@ -92,7 +98,6 @@ export class CoffeesService {
       await queryRunner.manager.save(coffee);
       await queryRunner.manager.save(recomendEvent);
       await queryRunner.commitTransaction();
-
     } catch (error) {
       await queryRunner.rollbackTransaction();
     } finally {
@@ -101,7 +106,9 @@ export class CoffeesService {
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
-    const existingFlavor = await this.flavorRepository.findOne({ where: { name } });
+    const existingFlavor = await this.flavorRepository.findOne({
+      where: { name },
+    });
 
     if (existingFlavor) {
       return existingFlavor;
