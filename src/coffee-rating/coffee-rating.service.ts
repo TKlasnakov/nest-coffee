@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CoffeesService } from 'src/coffees/coffees.service';
-import { CreateCoffeeDto } from 'src/coffees/dto/create-coffee.dto/create-coffee.dto';
+import { CoffeesService } from '../coffees/coffees.service';
+import { CreateCoffeeDto } from '../coffees/dto/create-coffee.dto/create-coffee.dto';
 
 @Injectable()
 export class CoffeeRatingService {
