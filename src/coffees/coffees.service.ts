@@ -82,29 +82,6 @@ export class CoffeesService {
     return this.coffeeRepository.remove(coffee);
   }
 
-  private async recommendCoffee(coffee: Coffee) {
-    const queryRunner = this.dataSource.createQueryRunner();
-
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      coffee.recommendations++;
-
-      const recomendEvent = new Event();
-      recomendEvent.name = 'recommend_coffee';
-      recomendEvent.type = 'coffee';
-
-      await queryRunner.manager.save(coffee);
-      await queryRunner.manager.save(recomendEvent);
-      await queryRunner.commitTransaction();
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
-    }
-  }
-
   private async preloadFlavorByName(name: string): Promise<Flavor> {
     const existingFlavor = await this.flavorRepository.findOne({
       where: { name },
