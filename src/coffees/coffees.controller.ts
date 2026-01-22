@@ -11,8 +11,8 @@ import {
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { Public } from 'src/common/decorators/public.decorator';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('coffees')
 export class CoffeesController {
